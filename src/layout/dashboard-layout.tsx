@@ -29,3 +29,9 @@ export default function Page() {
     </SidebarProvider>
   );
 }
+
+// one dark pro
+// monospace theme
+// catppuccin
+// vs code dark theme
+// one candy dark

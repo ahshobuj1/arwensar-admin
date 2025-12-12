@@ -5,14 +5,9 @@ import authReducer from '@/features/auth/authSlice';
 import {userApi} from '@/features/users/userApi';
 import {coursesApi} from '@/features/courses/coursesApi';
 import {modulesApi} from '@/features/modules/modulesApi';
-import {contentApi} from '@/features/content/contentApi';
-import {coursePlanApi} from '@/features/coursePlan/coursePlanApi';
-import {lessonsApi} from '@/features/lessons/lessonsApi';
-import {quizApi} from '@/features/quize/quizeApi';
-import {lessonNoteApi} from '@/features/lessonNote/lessonNoteApi';
 import {transactionsApi} from '@/features/transactions/transactionsApi';
-import {enrollmentApi} from '@/features/enrollment/enrollmentApi';
-import {certificateApi} from '@/features/certificate/certificateApi'; // ✨ Import
+import {certificateApi} from '@/features/certificate/certificateApi';
+import {contentApi} from '@/features/content/contentApi'; // ✨ Import
 
 export const store = configureStore({
   reducer: {
@@ -22,12 +17,7 @@ export const store = configureStore({
     [coursesApi.reducerPath]: coursesApi.reducer,
     [modulesApi.reducerPath]: modulesApi.reducer,
     [contentApi.reducerPath]: contentApi.reducer,
-    [coursePlanApi.reducerPath]: coursePlanApi.reducer,
-    [lessonsApi.reducerPath]: lessonsApi.reducer,
-    [quizApi.reducerPath]: quizApi.reducer,
-    [lessonNoteApi.reducerPath]: lessonNoteApi.reducer,
     [transactionsApi.reducerPath]: transactionsApi.reducer,
-    [enrollmentApi.reducerPath]: enrollmentApi.reducer,
     [certificateApi.reducerPath]: certificateApi.reducer, // ✨ Add reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -41,12 +31,7 @@ export const store = configureStore({
       coursesApi.middleware,
       modulesApi.middleware,
       contentApi.middleware,
-      coursePlanApi.middleware,
-      lessonsApi.middleware,
-      quizApi.middleware,
-      lessonNoteApi.middleware,
       transactionsApi.middleware,
-      enrollmentApi.middleware,
       certificateApi.middleware, // ✨ Add middleware
     ]),
 });

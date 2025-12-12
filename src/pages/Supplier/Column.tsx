@@ -12,11 +12,12 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import EditSupplier from './eDITSupplier';
+
+import {IconLiveView, IconUserEdit} from '@tabler/icons-react';
+import EditSupplier from './EditSupplier';
 
 export const Columns: ColumnDef<ISupplier>[] = [
   {
@@ -159,14 +160,46 @@ export const Columns: ColumnDef<ISupplier>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log('View', supplier.id)}>
+            {/* <ul className="flex flex-col py-4 space-y-2">
+              <li className="bg-transparent text-gray-700 cursor-pointer hover:bg-primary/20 hover:shadow-none flex gap-2 items-center p-1 rounded-sm">
+                <View /> View
+              </li>
+              <EditSupplier
+                supplier={supplier}
+                trigger={
+                  <li className="bg-transparent text-gray-700 cursor-pointer hover:bg-primary/20 hover:shadow-none">
+                    <Edit /> Edit
+                  </li>
+                }
+              />
+            </ul> */}
+            {/* 
+            <DropdownMenuItem>
+              <IconLiveView />
               View
             </DropdownMenuItem>
+
+            <EditSupplier
+              supplier={supplier}
+              trigger={
+                <DropdownMenuItem>
+                  <IconUserEdit /> Edit
+                </DropdownMenuItem>
+              }
+            /> */}
+
+            <Button className="rounded-xm w-full flex justify-start bg-transparent hover:bg-gray-50 text-gray-700 mt-2">
+              <IconLiveView />
+              View
+            </Button>
             <DropdownMenuItem asChild>
               <EditSupplier
                 supplier={supplier}
-                trigger={<Button className="rounded-xm w-full">Edit</Button>}
+                trigger={
+                  <Button className="rounded-xm w-full flex justify-start bg-transparent hover:bg-gray-50 text-gray-700">
+                    <IconUserEdit /> Edit
+                  </Button>
+                }
               />
             </DropdownMenuItem>
 
