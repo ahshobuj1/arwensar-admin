@@ -3,10 +3,20 @@ import {Badge} from '@/components/ui/badge';
 import {Button} from '@/components/ui/button';
 import {Popover, PopoverTrigger, PopoverContent} from '@/components/ui/popover';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {ChevronDown} from 'lucide-react';
+import {ChevronDown, MoreHorizontal} from 'lucide-react';
 import {formatDate} from '@/utils/formatDate';
 import {Link} from 'react-router';
 import type {ISupplier} from './type';
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import EditSupplier from './eDITSupplier';
 
 export const Columns: ColumnDef<ISupplier>[] = [
   {
@@ -133,5 +143,48 @@ export const Columns: ColumnDef<ISupplier>[] = [
     accessorKey: 'updatedAt',
     header: 'Updated At',
     cell: ({row}) => <span>{formatDate(row.original.updatedAt)}</span>,
+  },
+
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({row}) => {
+      const supplier = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => console.log('View', supplier.id)}>
+              View
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <EditSupplier
+                supplier={supplier}
+                trigger={<Button className="rounded-xm w-full">Edit</Button>}
+              />
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-destructive" asChild>
+              {/* <DeleteSupplier
+                id={supplier.id!}
+                onSuccess={() => console.log('supplier deleted successfully')}
+                trigger={
+                  <Button className="text-destructive w-full" variant={'ghost'}>
+                    Delete
+                  </Button>
+                }
+              /> */}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];

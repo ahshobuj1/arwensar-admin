@@ -68,15 +68,13 @@ export function AppSidebar({...props}: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5">
-              <Link to="#">
+              <Link to="/dashboard">
                 <img
                   src="/logo.png"
                   alt="The Recident Creator"
                   className="size-6"
                 />
-                <span className="text-base font-semibold">
-                  The Recident Creator
-                </span>
+                <span className="text-base font-semibold">arwensar</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

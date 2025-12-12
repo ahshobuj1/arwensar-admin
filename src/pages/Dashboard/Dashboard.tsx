@@ -22,7 +22,7 @@ export default function Dashboard() {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
-      username: 'johndoe',
+      username: 'john doe',
       role: 'admin',
       status: 'active',
       lastLoginAt: '2025-01-20T15:30:00Z',
