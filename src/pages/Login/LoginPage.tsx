@@ -1,18 +1,6 @@
-// import { LoginForm } from '@/components/login-form';
-
-// export default function LoginPage() {
-//     return (
-//         <div className="flex min-h-svh flex-col items-center justify-center">
-//             <LoginForm />
-//         </div>
-//     );
-// }
-
-// import {LoginVendorAccountFrom} from '@/components/modules/Authentication/LoginVendorAccountFrom';
-import vandorLogin from '@/assets/photo_2025-12-13_06-28-16-removebg-preview.png';
+import loginImage from '@/assets/photo_2025-12-13_06-28-16-removebg-preview.png';
 import {FromLogin} from './FormLogin';
-// import GoBackButton from '@/hooks/GoBackButton';
-// import {RouteLoadingIndicator} from '@/hooks/page-transition';
+
 export default function LoginPage() {
   return (
     <section className="min-h-screen bg-primary/10 py-12 lg:py-20 flex flex-col items-center justify-center">
@@ -27,10 +15,10 @@ export default function LoginPage() {
                 Log In
               </h1>
               <p className="text-lg text-muted-foreground max-w-lg">
-                Welcome back to your CyberNark NIS2 Supplier Risk Dashboard. Log
-                in to continue managing cybersecurity compliance, risk
-                management, and audit preparedness.
-                {/* <GoBackButton /> */}
+                <span className="text-primary">Welcome</span> back to the
+                <span className="text-primary"> CyberNark Admin Dashboard</span>
+                . Log in to manage users, monitor compliance status, review risk
+                assessments, and oversee system operations securely.
               </p>
             </div>
 
@@ -40,7 +28,7 @@ export default function LoginPage() {
           {/* Right: Illustration */}
           <div className="hidden lg:flex justify-center">
             <img
-              src={vandorLogin}
+              src={loginImage}
               alt="Team working together on compliance"
               width={650}
               height={650}

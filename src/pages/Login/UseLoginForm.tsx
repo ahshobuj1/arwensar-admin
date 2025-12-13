@@ -1,4 +1,5 @@
-// src/hooks/useLoginForm.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -21,56 +22,24 @@ export const useLoginForm = () => {
     watch,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
-    mode: 'onTouched', // better UX: validate on blur/touch
+    mode: 'onChange', // better UX: validate on onChange
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'super@gmail.com',
+      password: 'SabbirMridha12',
       terms: true, // pre-checked
     },
   });
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-
-  // Optional: watch terms value if needed elsewhere
   const termsValue = watch('terms');
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const result = await login({email, password}).unwrap();
-  //     console.log('Login success:', result);
-  //     navigate('/dashboard');
-  //     // You can redirect or store user info here
-  //   } catch (err: unknown) {
-  //     toast.error(getErrorMessage(err));
-  //   }
-  // };
-
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (values: LoginFormData) => {
     try {
-      // const res = await loginVendor({
-      //   email: data.email,
-      //   password: data.password,
-      //   terms: false,
-      // }).unwrap();
-
-      const res = await login({
-        email: data.email,
-        password: data.password,
-        terms: false,
-      }).unwrap();
+      const res = await login(values).unwrap();
       console.log('Login success:', res);
-      toast.success('Login successful! Redirecting...');
-      // navigate('/dashboard');
-
-      console.log(res);
 
       if (res.success) {
-        toast.success('Login successful! Redirecting...', {
-          position: 'top-center',
-          duration: 3000,
-        });
+        toast.success('Login successful! Redirecting...');
 
         setTimeout(() => {
           navigate('/dashboard', {replace: true});
@@ -78,9 +47,7 @@ export const useLoginForm = () => {
       }
     } catch (err: any) {
       const message = err?.data?.message || 'Login failed. Please try again.';
-      toast.error(message, {
-        position: 'top-center',
-      });
+      toast.error(message);
     }
   };
 

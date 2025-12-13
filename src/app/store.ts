@@ -7,7 +7,8 @@ import {coursesApi} from '@/features/courses/coursesApi';
 import {modulesApi} from '@/features/modules/modulesApi';
 import {transactionsApi} from '@/features/transactions/transactionsApi';
 import {certificateApi} from '@/features/certificate/certificateApi';
-import {contentApi} from '@/features/content/contentApi'; // ✨ Import
+import {contentApi} from '@/features/content/contentApi';
+import {statsApi} from '@/features/stats/statsApi'; // ✨ Import
 
 import {
   persistStore,
@@ -38,6 +39,7 @@ export const store = configureStore({
     [modulesApi.reducerPath]: modulesApi.reducer,
     [contentApi.reducerPath]: contentApi.reducer,
     [transactionsApi.reducerPath]: transactionsApi.reducer,
+    [statsApi.reducerPath]: statsApi.reducer,
     [certificateApi.reducerPath]: certificateApi.reducer, // ✨ Add reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -52,7 +54,8 @@ export const store = configureStore({
       modulesApi.middleware,
       contentApi.middleware,
       transactionsApi.middleware,
-      certificateApi.middleware, // ✨ Add middleware
+      certificateApi.middleware,
+      statsApi.middleware, // ✨ Add middleware
     ]),
 });
 

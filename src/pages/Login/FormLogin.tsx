@@ -3,7 +3,6 @@ import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
 import {Checkbox} from '@/components/ui/checkbox';
 import {Eye, EyeOff} from 'lucide-react';
-// import {useLoginForm} from '@/hooks/useVendorLoginFrom';
 import {NavLink} from 'react-router';
 import {useLoginForm} from './UseLoginForm';
 
@@ -42,7 +41,7 @@ export const FromLogin = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Business Email */}
         <div className="space-y-2">
-          <Label htmlFor="email">Business Email</Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             type="email"
@@ -121,16 +120,6 @@ export const FromLogin = () => {
             Forgot your password?
           </NavLink>
         </div>
-
-        {/* Sign Up Link */}
-        <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{' '}
-          <NavLink
-            to={'/signinvendor'}
-            className="text-primary font-medium hover:underline">
-            Sign Up
-          </NavLink>
-        </p>
       </form>
     </div>
   );

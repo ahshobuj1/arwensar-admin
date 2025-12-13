@@ -12,7 +12,7 @@ export const ProtectedRoute = ({children}: ProtectedRouteProps) => {
   const location = useLocation();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Please wait a moment, Checking Authentication...</div>;
   }
 
   // Not logged in
@@ -21,7 +21,7 @@ export const ProtectedRoute = ({children}: ProtectedRouteProps) => {
   }
 
   // Role check — only ADMIN allowed
-  if (role !== 'ADMIN') {
+  if (role !== import.meta.env.VITE_AUTHORIZED_ROLE) {
     toast.warning('You are not authorized!');
     return <Navigate to="/login" replace />;
   }

@@ -1,90 +1,60 @@
-import {ChartAreaInteractive} from '@/components/chart-area-interactive';
-import {DataTable} from '@/components/data-table';
-import {SectionCards} from '@/components/section-cards';
-import data from './data.json';
+import {useStatsQuery} from '@/features/stats/statsApi';
+import {HealthCard} from './HealthCard';
+import {SectionCards} from './SectionCard';
+import {VendorsByIndustryChart} from './_chart/VendorsByIndustryChart';
+import {RiskDistributionChart} from './_chart/RiskDistributionChart';
+import {ProblemsPriorityChart} from './_chart/ProblemsPriorityChart';
+// import {ProblemsPriorityChart} from './_chart/ProblemsPriorityChart';
+
 export default function Dashboard() {
-  // Fetch profile data
-  // const {
-  //     data: profileData,
-  //     isLoading,
-  //     isError,
-  //     error,
-  // } = useProfileQuery(undefined, {
-  //     refetchOnMountOrArgChange: true,
-  // });
+  const {data, isLoading, isError} = useStatsQuery(undefined);
 
-  //   if (isLoading) return <div>Loading profile...</div>;
-  //   if (isError) return <div>Error loading profile: {JSON.stringify(error)}</div>;
+  if (isLoading) return <div className="p-6">Loading dashboard...</div>;
+  if (isError || !data?.data)
+    return <div className="p-6 text-red-500">Failed to load dashboard</div>;
 
-  const profileData = {
-    data: {
-      displayName: 'John Doe',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      username: 'john doe',
-      role: 'admin',
-      status: 'active',
-      lastLoginAt: '2025-01-20T15:30:00Z',
-      bio: 'Tech enthusiast, developer, and coffee lover.',
-      createdAt: '2024-05-10T10:15:00Z',
-      avatarUrl: 'https://i.pravatar.cc/150?img=3',
-    },
-  };
+  const dashboard = data?.data;
 
-  // const profile = profileData?.data;
+  // console.log(dashboard);
+
   return (
     <div className="p-6">
-      {/* <h1 className="text-2xl font-bold mb-4">Dashboard</h1> */}
-      {/* {profile ? (
-        <div className="space-y-2">
-          <p>
-            <strong>Full Name:</strong>{' '}
-            {profile.displayName || `${profile.firstName} ${profile.lastName}`}
-          </p>
-          <p>
-            <strong>Email:</strong> {profile.email}
-          </p>
-          <p>
-            <strong>Username:</strong> {profile.username || 'N/A'}
-          </p>
-          <p>
-            <strong>Role:</strong> {profile.role}
-          </p>
-          <p>
-            <strong>Status:</strong> {profile.status}
-          </p>
-          <p>
-            <strong>Last Login:</strong>{' '}
-            {new Date(profile.lastLoginAt).toLocaleString()}
-          </p>
-          <p>
-            <strong>Bio:</strong> {profile.bio || 'No bio provided'}
-          </p>
-          <p>
-            <strong>Created At:</strong>{' '}
-            {new Date(profile.createdAt).toLocaleString()}
-          </p>
-          {profile.avatarUrl && (
-            <img
-              src={profile.avatarUrl}
-              alt="Avatar"
-              className="w-24 h-24 rounded-full mt-2"
-            />
-          )}
+      <div className="@container/main flex flex-1 flex-col gap-6">
+        {/*  KPI Cards */}
+        <SectionCards overview={dashboard.overview} />
+
+        {/*  System Health */}
+        <h2 className="text-primary text-3xl font-semibold mt-4">
+          System Health
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <HealthCard
+            title="Completion Rate"
+            value={`${dashboard.systemHealth.assessmentCompletionRate}%`}
+          />
+          <HealthCard
+            title="Average Risk Score"
+            value={dashboard.systemHealth.averageRiskScore}
+            variant="danger"
+          />
+          <HealthCard
+            title="Compliance Rate"
+            value={`${dashboard.systemHealth.complianceRate}%`}
+            variant="warning"
+          />
         </div>
-      ) : (
-        <p>No profile data found.</p>
-      )} */}
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          {/* <div className="px-4 lg:px-6 border w-[250px] h-[200px] bg-accent border-amber-300 clip-path-curve rounded-xl">
-            Dashboard content
-          </div> */}
-          <SectionCards />
-          <div className="px-4 lg:px-6">{/* <ChartAreaInteractive /> */}</div>
-          {/* <DataTable data={data} /> */}
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <VendorsByIndustryChart
+            data={dashboard?.breakdown?.vendorsByIndustry}
+          />
+          <RiskDistributionChart
+            submissions={dashboard?.recentActivity?.submissions}
+          />
         </div>
+
+        <ProblemsPriorityChart problems={dashboard?.recentActivity?.problems} />
       </div>
     </div>
   );
