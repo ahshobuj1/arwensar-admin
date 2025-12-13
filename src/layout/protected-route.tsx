@@ -1,34 +1,31 @@
 // src/components/layout/protected-route.tsx
 import {Navigate, useLocation} from 'react-router';
 import {useAuth} from '@/hooks/useAuth';
+import {toast} from 'sonner';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requireAuth?: boolean;
 }
 
-export const ProtectedRoute = ({
-  children,
-  requireAuth = true,
-}: ProtectedRouteProps) => {
-  const {isAuthenticated, isLoading} = useAuth(); // assume your hook provides loading state
+export const ProtectedRoute = ({children}: ProtectedRouteProps) => {
+  const {isAuthenticated, isLoading, role} = useAuth();
   const location = useLocation();
 
-  // While auth status is being checked, optionally render a loader
   if (isLoading) {
-    return <div>Loading...</div>; // or a spinner component
+    return <div>Loading...</div>;
   }
 
-  // Redirect if route requires auth and user is not authenticated
-  if (requireAuth && !isAuthenticated) {
+  // Not logged in
+  if (!isAuthenticated) {
     return <Navigate to="/login" state={{from: location}} replace />;
   }
 
-  // Redirect if route is public but user is already authenticated
-  if (!requireAuth && isAuthenticated) {
-    return <Navigate to="/" replace />;
+  // Role check — only ADMIN allowed
+  if (role !== 'ADMIN') {
+    toast.warning('You are not authorized!');
+    return <Navigate to="/login" replace />;
   }
 
-  // Otherwise, render children
+  // Otherwise show children
   return <>{children}</>;
 };

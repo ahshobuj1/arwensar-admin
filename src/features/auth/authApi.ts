@@ -22,8 +22,8 @@ export const authApi = createApi({
           // Store auth data in Redux
           dispatch(
             setCredentials({
-              user: data.user,
-              token: data.data.token,
+              // user: data.user,
+              token: data.data.accessToken,
             })
           );
 
@@ -39,7 +39,7 @@ export const authApi = createApi({
     // profile
     profile: builder.query({
       query: () => ({
-        url: '/auth/profile',
+        url: '/auth/me',
         method: 'GET',
       }),
       providesTags: ['Profile'],
@@ -57,7 +57,7 @@ export const authApi = createApi({
 
           dispatch(
             setCredentials({
-              user: data.user,
+              // user: data.user,
               token: data.token,
             })
           );
@@ -102,7 +102,7 @@ export const authApi = createApi({
 
           dispatch(
             setCredentials({
-              user: data.user,
+              // user: data.user,
               token: data.token,
             })
           );

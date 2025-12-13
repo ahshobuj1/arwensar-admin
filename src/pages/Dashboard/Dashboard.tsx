@@ -32,11 +32,11 @@ export default function Dashboard() {
     },
   };
 
-  const profile = profileData?.data;
+  // const profile = profileData?.data;
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      {profile ? (
+      {/* <h1 className="text-2xl font-bold mb-4">Dashboard</h1> */}
+      {/* {profile ? (
         <div className="space-y-2">
           <p>
             <strong>Full Name:</strong>{' '}
@@ -75,17 +75,15 @@ export default function Dashboard() {
         </div>
       ) : (
         <p>No profile data found.</p>
-      )}
+      )} */}
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <div className="px-4 lg:px-6 border w-[250px] h-[200px] bg-accent border-amber-300 clip-path-curve rounded-xl">
+          {/* <div className="px-4 lg:px-6 border w-[250px] h-[200px] bg-accent border-amber-300 clip-path-curve rounded-xl">
             Dashboard content
-          </div>
+          </div> */}
           <SectionCards />
-          <div className="px-4 lg:px-6">
-            <ChartAreaInteractive />
-          </div>
-          <DataTable data={data} />
+          <div className="px-4 lg:px-6">{/* <ChartAreaInteractive /> */}</div>
+          {/* <DataTable data={data} /> */}
         </div>
       </div>
     </div>
