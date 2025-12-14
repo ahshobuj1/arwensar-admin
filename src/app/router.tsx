@@ -9,6 +9,7 @@ import LoginPage from '@/pages/Login/LoginPage';
 import ProfileForm from '@/pages/Profile/ProfileForm';
 import Transactions from '@/pages/Transactions/Transactions'; // ✨ Import
 import Supplier from '@/pages/Supplier/Supplier';
+import Assignment from '@/pages/Assignment/Assignment';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: 'supplier',
         element: <Supplier />,
+      },
+      {
+        path: 'assignment',
+        element: <Assignment />,
       },
 
       // {

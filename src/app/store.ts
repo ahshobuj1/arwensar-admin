@@ -8,7 +8,8 @@ import {modulesApi} from '@/features/modules/modulesApi';
 import {transactionsApi} from '@/features/transactions/transactionsApi';
 import {certificateApi} from '@/features/certificate/certificateApi';
 import {contentApi} from '@/features/content/contentApi';
-import {statsApi} from '@/features/stats/statsApi'; // ✨ Import
+import {statsApi} from '@/features/stats/statsApi';
+import {assignmentApi} from '@/features/assignment/assignmentApi'; // ✨ Import
 
 import {
   persistStore,
@@ -40,6 +41,7 @@ export const store = configureStore({
     [contentApi.reducerPath]: contentApi.reducer,
     [transactionsApi.reducerPath]: transactionsApi.reducer,
     [statsApi.reducerPath]: statsApi.reducer,
+    [assignmentApi.reducerPath]: assignmentApi.reducer,
     [certificateApi.reducerPath]: certificateApi.reducer, // ✨ Add reducer
   },
   middleware: (getDefaultMiddleware) =>
@@ -55,6 +57,7 @@ export const store = configureStore({
       contentApi.middleware,
       transactionsApi.middleware,
       certificateApi.middleware,
+      assignmentApi.middleware,
       statsApi.middleware, // ✨ Add middleware
     ]),
 });
