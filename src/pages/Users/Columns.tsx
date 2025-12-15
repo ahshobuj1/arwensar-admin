@@ -1,187 +1,150 @@
-import { type ColumnDef } from '@tanstack/react-table';
-import { formatDate } from '@/utils/formatDate';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import type {ColumnDef} from '@tanstack/react-table';
+import {Badge} from '@/components/ui/badge';
+import {Button} from '@/components/ui/button';
+import {MoreHorizontal} from 'lucide-react';
+import {formatDate} from '@/utils/formatDate';
+
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { ChevronDown, LinkIcon, Loader, MoreHorizontal } from 'lucide-react';
-import EditUser from './EditUser';
-import type { TUser } from './type';
-import { Badge } from '@/components/ui/badge';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import DeleteUser from './DeleteUser';
-import { toast } from 'sonner';
+import type {IUser} from './type';
 
-export const columns: ColumnDef<TUser>[] = [
-    {
-        id: 'avatarUrl',
-        accessorKey: 'avatarUrl',
-        header: 'Avatar',
-        cell: ({ row }) => (
-            <EditUser
-                item={row.original}
-                trigger={
-                    <Avatar>
-                        <AvatarImage
-                            src={row?.original.avatarUrl || ''}
-                            alt={row?.original.displayName}
-                        />
-                        <AvatarFallback className="rounded-lg">
-                            {row?.original.firstName[0]}
-                        </AvatarFallback>
-                    </Avatar>
-                }
-            />
-        ),
-    },
-    {
-        id: 'displayName',
-        accessorKey: 'displayName',
-        header: 'Name',
-        cell: ({ row }) => {
-            return (
-                <EditUser
-                    item={row.original}
-                    trigger={
-                        <span className="truncate hover:underline">{row.original.displayName}</span>
-                    }
-                />
-            );
-        },
-    },
-    {
-        id: 'email',
-        accessorKey: 'email',
-        header: 'Email',
-    },
-    {
-        id: 'role',
-        accessorKey: 'role',
-        header: 'Role',
-        cell: ({ row }) => (
-            <Badge className={`capitalize ${row.original.role === 'admin' && 'bg-destructive'}`}>
-                {row.original.role}
-            </Badge>
-        ),
-    },
-    {
-        id: 'status',
-        accessorKey: 'status',
-        header: 'Status',
-        cell: ({ row }) => (
-            <Badge
-                className={`capitalize ${
-                    row.original.status === 'active'
-                        ? 'bg-chart-2'
-                        : row.original.status === 'pending_verification'
-                        ? 'bg-destructive'
-                        : 'bg-chart-4'
-                }`}
-            >
-                {row.original.status === 'pending_verification' && (
-                    <Loader className="h-4 w-4 text-secondary-foreground" />
-                )}
-                {row.original.status}
-            </Badge>
-        ),
-    },
-    {
-        id: 'instagramUrl',
-        accessorKey: 'instagramUrl',
-        header: 'Instagram',
-        cell: ({ row }) => (
-            <a
-                href={row.original.instagramUrl || ''}
-                className="truncate hover:underline flex gap-2  items-center"
-            >
-                <LinkIcon className="w-4 h-4" /> Instagram
-            </a>
-        ),
-    },
+export const columns: ColumnDef<IUser>[] = [
+  // 📧 Email
+  {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({row}) => <div className="font-medium">{row.original.email}</div>,
+  },
 
-    {
-        id: 'createdAt',
-        accessorKey: 'createdAt',
-        header: 'Created At',
-        cell: ({ row }) => formatDate(row.original.createdAt || ''),
+  // 🧑 Role
+  {
+    accessorKey: 'role',
+    header: 'Role',
+    cell: ({row}) => {
+      const role = row.original.role;
+
+      const color =
+        role === 'ADMIN'
+          ? 'bg-purple-600'
+          : role === 'VENDOR'
+          ? 'bg-blue-600'
+          : 'bg-gray-500';
+
+      return <Badge className={`${color} text-white`}>{role}</Badge>;
     },
-    {
-        id: 'bio',
-        accessorKey: 'bio',
-        header: 'Bio',
-        cell: ({ row }) => {
-            const bio = row.original.bio || '—';
+  },
 
-            if (bio.length < 50) {
-                return <span className="truncate ">{bio}</span>;
-            }
+  // 🏢 Vendor / Company
+  {
+    header: 'Company',
+    cell: ({row}) => {
+      const vendor = row.original.vendor;
 
-            return (
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            className="h-auto justify-start text-left text-sm p-2"
-                        >
-                            <p className="text-sm flex items-center gap-2">
-                                {bio.length > 50 ? bio.slice(0, 30) + '...' : bio}
-                                <ChevronDown size={16} />
-                            </p>
-                        </Button>
-                    </PopoverTrigger>
+      if (!vendor) return <span className="text-muted-foreground">—</span>;
 
-                    <PopoverContent className=" p-4" align="start">
-                        <ScrollArea className="max-h-[60vh]">
-                            <p className="whitespace-pre-wrap text-sm">{bio}</p>
-                        </ScrollArea>
-                    </PopoverContent>
-                </Popover>
-            );
-        },
+      return (
+        <div className="flex flex-col">
+          <span className="font-medium">{vendor.companyName || 'N/A'}</span>
+          <span className="text-xs text-muted-foreground">
+            {vendor.businessEmail}
+          </span>
+        </div>
+      );
     },
-    {
-        id: 'actions',
-        header: 'Actions',
-        cell: ({ row }) => {
-            const user = row.original;
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(user.id || '')}
-                        >
-                            Copy User ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+  },
 
-                        <DropdownMenuItem className="text-destructive" asChild>
-                            <DeleteUser
-                                id={user.id!}
-                                onSuccess={() => toast.success('User deleted')}
-                                trigger={
-                                    <Button className="text-destructive w-full" variant={'ghost'}>
-                                        Delete
-                                    </Button>
-                                }
-                            />
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+  // ✅ Status
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({row}) => {
+      const status = row.original.status;
+
+      return (
+        <Badge
+          className={
+            status === 'ACTIVE'
+              ? 'bg-green-600 text-white'
+              : 'bg-red-600 text-white'
+          }>
+          {status}
+        </Badge>
+      );
     },
+  },
+
+  // 🔐 Verified
+  {
+    accessorKey: 'isVerified',
+    header: 'Verified',
+    cell: ({row}) =>
+      row.original.isVerified ? (
+        <Badge className="bg-green-600 text-white">Yes</Badge>
+      ) : (
+        <Badge variant="outline">No</Badge>
+      ),
+  },
+
+  // 🔁 Password Change Required
+  {
+    accessorKey: 'needPasswordChange',
+    header: 'Pwd Reset',
+    cell: ({row}) =>
+      row.original.needPasswordChange ? (
+        <Badge className="bg-yellow-500 text-black">Required</Badge>
+      ) : (
+        <Badge variant="outline">No</Badge>
+      ),
+  },
+
+  // 📅 Created At
+  {
+    accessorKey: 'createdAt',
+    header: 'Created',
+    cell: ({row}) => <span>{formatDate(row.original.createdAt)}</span>,
+  },
+
+  // ⚙️ Actions
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({row}) => {
+      const user = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>View Details</DropdownMenuItem>
+
+            {user.status === 'ACTIVE' ? (
+              <DropdownMenuItem className="text-yellow-600">
+                Suspend User
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem className="text-green-600">
+                Activate User
+              </DropdownMenuItem>
+            )}
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem className="text-destructive">
+              Delete User
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];

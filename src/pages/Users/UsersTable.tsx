@@ -1,48 +1,46 @@
 import React from 'react';
-import { columns } from './Columns';
-import { DataTable } from '../DataTable';
-import { useUsersQuery } from '@/features/users/userApi';
+import {columns} from './Columns';
+import {DataTable} from '../DataTable';
+import {useUsersQuery} from '@/features/users/userApi';
+
 export default function UsersTable({
-    searchQuery,
-    sortQuery,
-    sortOrder,
+  searchQuery,
+  sortQuery,
+  sortOrder,
 }: {
-    searchQuery: string;
-    sortQuery: string;
-    sortOrder: string;
+  searchQuery: string;
+  sortQuery: string;
+  sortOrder: string;
 }) {
-    const [pagination, setPagination] = React.useState({
-        pageIndex: 0,
-        pageSize: 10,
-    });
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
 
-    const { data, isLoading } = useUsersQuery(
-        {
-            page: pagination.pageIndex + 1, // API expects 1-based
-            limit: pagination.pageSize,
-            search: searchQuery,
-            sortBy: sortQuery,
-            sortOrder,
-        },
-        {
-            refetchOnMountOrArgChange: true,
-        }
-    );
+  const {data, isLoading} = useUsersQuery({
+    page: pagination.pageIndex + 1,
+    limit: pagination.pageSize,
+    search: searchQuery,
+    sortBy: sortQuery,
+    sortOrder,
+  });
 
-    const totalPages = data?.meta?.pagination?.totalPages ?? 0;
-    const totalRows = data?.meta?.pagination?.total ?? 0;
+  //   console.log('from console:->', data);
 
-    return (
-        <div className="overflow-hidden rounded-md border">
-            <DataTable
-                columns={columns}
-                data={data?.data ?? []}
-                totalRows={totalRows}
-                totalPages={totalPages}
-                pagination={pagination}
-                onPaginationChange={setPagination}
-                isLoading={isLoading}
-            />
-        </div>
-    );
+  const totalRows = data?.meta?.total ?? 0;
+  const totalPages = Math.ceil(totalRows / pagination.pageSize);
+
+  return (
+    <div className="overflow-hidden rounded-md border">
+      <DataTable
+        columns={columns}
+        data={data?.data?.data ?? []}
+        totalRows={totalRows}
+        totalPages={totalPages}
+        pagination={pagination}
+        onPaginationChange={setPagination}
+        isLoading={isLoading}
+      />
+    </div>
+  );
 }

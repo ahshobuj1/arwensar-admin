@@ -65,6 +65,10 @@ const router = createBrowserRouter([
         element: <Courses />,
       },
       {
+        path: 'users',
+        element: <Users />,
+      },
+      {
         path: 'vendor',
         element: <Users />,
       },
