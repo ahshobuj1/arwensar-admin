@@ -51,11 +51,11 @@ export const UsersFormSchema = z.object({
   deletedAt: z.date().nullable().optional(),
 });
 
-// export type TUser = z.infer<typeof UsersFormSchema>;
+export type TUser = z.infer<typeof UsersFormSchema>;
 
 export type UserRole = 'ADMIN' | 'VENDOR' | 'SUPPLIER';
 
-export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
+export type UserStatus = 'ACTIVE' | 'INACTIVE';
 
 export interface IUser {
   id: string;

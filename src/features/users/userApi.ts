@@ -37,12 +37,24 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
+    updateUserStatus: builder.mutation<
+      {message: string},
+      {userId: string; status: 'ACTIVE' | 'INACTIVE'}
+    >({
+      query: ({userId, status}) => ({
+        url: `/admin/users/new/${userId}`,
+        method: 'PATCH',
+        body: {status},
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
 export const {
   useUsersQuery,
   useUserQuery,
-  useUpdateUserMutation,
+  useUpdateUserStatusMutation,
   useDeleteUserMutation,
 } = userApi;

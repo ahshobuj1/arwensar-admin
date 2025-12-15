@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import type {IUser} from './type';
+import {useUpdateUserStatusMutation} from '@/features/users/userApi';
 
 export const columns: ColumnDef<IUser>[] = [
   // 📧 Email
@@ -58,22 +59,45 @@ export const columns: ColumnDef<IUser>[] = [
     },
   },
 
-  // ✅ Status
   {
     accessorKey: 'status',
     header: 'Status',
     cell: ({row}) => {
-      const status = row.original.status;
+      const {id, status} = row.original;
+      const [updateStatus, {isLoading}] = useUpdateUserStatusMutation();
+
+      const nextStatus = status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+
+      const handleToggle = async () => {
+        try {
+          await updateStatus({
+            userId: id,
+            status: nextStatus,
+          }).unwrap();
+        } catch (err) {
+          console.error('Status update failed', err);
+        }
+      };
 
       return (
-        <Badge
-          className={
-            status === 'ACTIVE'
-              ? 'bg-green-600 text-white'
-              : 'bg-red-600 text-white'
-          }>
-          {status}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge
+            className={
+              status === 'ACTIVE'
+                ? 'bg-green-600 text-white'
+                : 'bg-red-600 text-white'
+            }>
+            {status}
+          </Badge>
+
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={isLoading}
+            onClick={handleToggle}>
+            {status === 'ACTIVE' ? 'Make Inactive' : 'Make Active'}
+          </Button>
+        </div>
       );
     },
   },
