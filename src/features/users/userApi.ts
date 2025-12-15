@@ -45,7 +45,7 @@ export const userApi = createApi({
       query: ({userId, status}) => ({
         url: `/admin/users/new/${userId}`,
         method: 'PATCH',
-        body: {status},
+        data: {status},
       }),
       invalidatesTags: ['User'],
     }),
