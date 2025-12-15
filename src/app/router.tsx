@@ -6,10 +6,12 @@ import DashboardLayout from '@/layout/dashboard-layout';
 import Users from '@/pages/Users/Users';
 import Courses from '@/pages/Course/Courses';
 import LoginPage from '@/pages/Login/LoginPage';
-import ProfileForm from '@/pages/Profile/ProfileForm';
+// import ProfileForm from '@/pages/Profile/ProfileForm';
 import Transactions from '@/pages/Transactions/Transactions'; // ✨ Import
 import Supplier from '@/pages/Supplier/Supplier';
 import Assignment from '@/pages/Assignment/Assignment';
+import Categories from '@/pages/Categories/Categories';
+import Questions from '@/pages/Questions/Questions';
 
 const router = createBrowserRouter([
   {
@@ -42,29 +44,29 @@ const router = createBrowserRouter([
         element: <h1>Dashboard</h1>,
       },
       {
+        path: 'suppliers',
+        element: <Supplier />,
+      },
+      {
+        path: 'assignments',
+        element: <Assignment />,
+      },
+
+      {
+        path: 'assignments/:assignmentId/categories',
+        element: <Categories />,
+      },
+      {
+        path: 'assignments/categories/:categoryId/questions',
+        element: <Questions />,
+      },
+      {
         path: 'Courses',
         element: <Courses />,
       },
       {
         path: 'vendor',
         element: <Users />,
-      },
-      {
-        path: 'supplier',
-        element: <Supplier />,
-      },
-      {
-        path: 'assignment',
-        element: <Assignment />,
-      },
-
-      // {
-      //   path: 'courses/:courseId/modules/:moduleId/lessons',
-      //   element: <Lessons />,
-      // },
-      {
-        path: 'profile',
-        element: <ProfileForm />,
       },
       {
         path: 'transactions',

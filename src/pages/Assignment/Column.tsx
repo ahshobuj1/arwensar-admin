@@ -47,7 +47,11 @@ export const columns: ColumnDef<IAssignment>[] = [
   {
     header: 'Categories',
     cell: ({row}) => (
-      <Badge variant="outline">{row.original._count.categories}</Badge>
+      <Badge variant="default">
+        <Link to={`/dashboard/assignments/${row.original.id}/categories`}>
+          {row.original._count.categories}
+        </Link>
+      </Badge>
     ),
   },
 
@@ -61,7 +65,7 @@ export const columns: ColumnDef<IAssignment>[] = [
           0
         ) ?? 0;
 
-      return <Badge variant="secondary">{totalQuestions}</Badge>;
+      return <Badge variant="outline">{totalQuestions}</Badge>;
     },
   },
 
@@ -69,9 +73,7 @@ export const columns: ColumnDef<IAssignment>[] = [
   {
     header: 'Submissions',
     cell: ({row}) => (
-      <Badge className="bg-primary text-white">
-        {row.original._count.submissions}
-      </Badge>
+      <Badge variant={'secondary'}>{row.original._count.submissions}</Badge>
     ),
   },
 
@@ -132,7 +134,9 @@ export const columns: ColumnDef<IAssignment>[] = [
 
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Link to={`/assignments/${assignment.id}`}>View Details</Link>
+              <Link to={`dashboard/assignments/${assignment.id}`}>
+                View Details
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />

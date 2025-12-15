@@ -10,6 +10,7 @@ import {Button} from '@/components/ui/button';
 import {ArrowDownNarrowWide, ArrowUpNarrowWide} from 'lucide-react';
 import {Input} from '@/components/ui/input';
 import {AssignmentTable} from './AssignmentTable';
+import CreateAssignment from './CreateAssignment';
 
 export default function Assignment() {
   const [search, setSearch] = useState('');
@@ -66,6 +67,7 @@ export default function Assignment() {
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
           <Button onClick={handleSearch}>Search</Button>
+          <CreateAssignment trigger={<Button>+ Create Assignment</Button>} />
         </div>
       </header>
 

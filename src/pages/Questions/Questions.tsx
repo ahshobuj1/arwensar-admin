@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {CourseTable} from './CourseTable';
 import {
   Select,
   SelectContent,
@@ -10,9 +9,9 @@ import {
 import {Button} from '@/components/ui/button';
 import {ArrowDownNarrowWide, ArrowUpNarrowWide} from 'lucide-react';
 import {Input} from '@/components/ui/input';
-import CreateCourse from './CreateCourse';
+import {QuestionsTable} from './QuestionsTable';
 
-export default function Courses() {
+export default function Questions() {
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('createdAt');
@@ -22,13 +21,7 @@ export default function Courses() {
   const sortOptions = [
     {value: 'id', label: 'ID'},
     {value: 'title', label: 'Title'},
-    {value: 'difficultyLevel', label: 'Difficulty Level'},
-    {value: 'basePrice', label: 'Base Price'},
-    {value: 'discountedPrice', label: 'Discounted Price'},
-    {value: 'status', label: 'Status'},
-    {value: 'estimatedDuration', label: 'Estimated Duration'},
     {value: 'isPublished', label: 'Published'},
-    {value: 'publishedAt', label: 'Published At'},
     {value: 'createdAt', label: 'Created At'},
     {value: 'updatedAt', label: 'Updated At'},
   ];
@@ -42,7 +35,7 @@ export default function Courses() {
     <div className="p-2">
       <header className="flex items-center justify-between mb-2">
         <div>
-          <h1 className="text-2xl font-bold">Courses</h1>
+          <h1 className="text-2xl font-bold">Questions</h1>
         </div>
         <div className="flex items-center gap-2">
           <Select onValueChange={handleSort} value={sort}>
@@ -73,11 +66,15 @@ export default function Courses() {
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
           <Button onClick={handleSearch}>Search</Button>
-          <CreateCourse trigger={<Button>+ Create Course</Button>} />
+          {/* <CreateQ trigger={<Button>+ Create Questions</Button>} /> */}
         </div>
       </header>
 
-      <CourseTable searchQuery={query} sortQuery={sort} sortOrder={sortOrder} />
+      <QuestionsTable
+        searchQuery={query}
+        sortQuery={sort}
+        sortOrder={sortOrder}
+      />
     </div>
   );
 }

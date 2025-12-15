@@ -44,12 +44,12 @@ const data = {
     },
     {
       title: 'Supplier',
-      url: '/dashboard/supplier',
+      url: '/dashboard/suppliers',
       icon: IconUsers,
     },
     {
       title: 'Assignment',
-      url: '/dashboard/assignment',
+      url: '/dashboard/assignments',
       icon: IconClipboardCheck,
     },
     {
