@@ -3,6 +3,7 @@ import {
   IconLogout,
   IconUserCircle,
 } from '@tabler/icons-react';
+import defaultUserImage from '@/assets/default-image.jpg';
 
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {
@@ -22,7 +23,7 @@ import {
 } from '@/components/ui/sidebar';
 import {useLogoutMutation, useProfileQuery} from '@/features/auth/authApi';
 import type {TUser} from '@/pages/Users/type';
-import {useState, useMemo} from 'react';
+import {useMemo} from 'react';
 
 export function NavUser() {
   const {isMobile} = useSidebar();
@@ -31,7 +32,7 @@ export function NavUser() {
   });
   const [logout, {isLoading: isLoggingOut}] = useLogoutMutation();
 
-  const [avatarError, setAvatarError] = useState(false);
+  // const [setAvatarError] = useState(false);
 
   const user: TUser | null = useMemo(() => profile?.data ?? null, [profile]);
 
@@ -80,9 +81,10 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               aria-label="User menu">
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                {!avatarError && user.avatarUrl ? (
+                {/* {!avatarError && user.avatarUrl ? (
                   <AvatarImage
-                    src={user.avatarUrl}
+                    src={defaultUserImage}
+                    // src={user.avatarUrl}
                     alt={user.displayName}
                     onError={() => setAvatarError(true)}
                   />
@@ -90,7 +92,14 @@ export function NavUser() {
                   <AvatarFallback className="rounded-lg">
                     {user.displayName?.[0]?.toUpperCase() || 'U'}
                   </AvatarFallback>
-                )}
+                )} */}
+
+                <AvatarImage
+                  src={user.avatarUrl || defaultUserImage}
+                  // src={user.avatarUrl}
+                  alt={user.displayName}
+                  // onError={() => setAvatarError(true)}
+                />
               </Avatar>
 
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -115,7 +124,8 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={user.avatarUrl || ''}
+                    src={user.avatarUrl || defaultUserImage}
+                    // src={user.avatarUrl || ''}
                     alt={user.displayName}
                   />
                   <AvatarFallback className="rounded-lg">
